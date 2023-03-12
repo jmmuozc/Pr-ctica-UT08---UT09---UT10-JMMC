@@ -190,9 +190,11 @@ class videoSystemController {
     }
 
     onInit = () => {
-        this.#videoSystemView.showCategories(this.#videoSystemModel.CategoriesList);
-        this.#videoSystemView.rngProductions(this.#videoSystemModel.Productions);
         this.#videoSystemView.headerCategories(this.#videoSystemModel.CategoriesList);
+        
+        // this.#videoSystemView.showCategories(this.#videoSystemModel.CategoriesList);
+        // this.#videoSystemView.rngProductions(this.#videoSystemModel.Productions);
+        // this.#videoSystemView.headerForms();
         // this.#videoSystemView.createModal();
 
 
@@ -204,10 +206,43 @@ class videoSystemController {
         this.#videoSystemView.bindDirectors(this.handleDirectors);
         this.#videoSystemView.bindProductionCard(this.HandleProduction);
         this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
+        // this.#videoSystemView.bindFormProduction(this.HandleProductionForm);
+        // this.#videoSystemView.bindFormCasting(this.HandleCastingForm);
+        // this.#videoSystemView.bindFormCategory(this.HandleCategoryForm);
+        // this.#videoSystemView.bindFormPerson(this.HandlePersonForm);
+        let cookie1 = document.cookie.replace(/(?:(?:^|.*;\s*)Cookie1\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (cookie1!="") {
+            this.onLogIn();
+        } else {
+            this.#videoSystemView.loginForm();
+            this.#videoSystemView.bindLogIn(this.HandleLogIn);
+        }
+    }
+
+    onLogIn = () => {
+        let cookie1 = document.cookie.replace(/(?:(?:^|.*;\s*)Cookie1\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        this.#videoSystemView.showCategories(this.#videoSystemModel.CategoriesList);
+        this.#videoSystemView.rngProductions(this.#videoSystemModel.Productions);
+        this.#videoSystemView.headerLogged(cookie1);
+        this.#videoSystemView.bindLogOff(this.HandleLogOff);
         this.#videoSystemView.bindFormProduction(this.HandleProductionForm);
         this.#videoSystemView.bindFormCasting(this.HandleCastingForm);
         this.#videoSystemView.bindFormCategory(this.HandleCategoryForm);
         this.#videoSystemView.bindFormPerson(this.HandlePersonForm);
+    }
+
+    failedLogIn = () => {
+        this.#videoSystemView.showCategories(this.#videoSystemModel.CategoriesList);
+        this.#videoSystemView.rngProductions(this.#videoSystemModel.Productions);
+
+        this.#videoSystemView.bindWindow(this.handleCloseWindows);
+        this.#videoSystemView.bindCategory(this.handleCategory);
+        this.#videoSystemView.bindSeries(this.handleSeries);
+        this.#videoSystemView.bindMovies(this.handleMovies);
+        this.#videoSystemView.bindActors(this.handleActors);
+        this.#videoSystemView.bindDirectors(this.handleDirectors);
+        this.#videoSystemView.bindProductionCard(this.HandleProduction);
+        this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
     }
 
     handleInit = () => {
@@ -301,6 +336,9 @@ class videoSystemController {
     HandlePersonForm = () => {
         this.onClickPersonForm();
     }
+    HandleLogOff = () => {
+        this.onClickLogOff();
+    }
 
     onClickClosewindows = () => {
         this.#videoSystemView.closeAllWindows();
@@ -388,12 +426,16 @@ class videoSystemController {
     }
 
     onClickCastingForm = () => {
-        this.#videoSystemView.castingForm(this.#videoSystemModel.Productions, this.#videoSystemModel.Actors, this.#videoSystemModel.Directors, true, "", undefined,"", undefined,"", undefined);
+        this.#videoSystemView.castingForm(this.#videoSystemModel.Productions, this.#videoSystemModel.Actors, this.#videoSystemModel.Directors, true, "", undefined, "", undefined, "", undefined);
         this.#videoSystemView.bindChangeCasting(this.handleChangeCasting);
     }
 
     onClickCategoryForm = () => {
         this.#videoSystemView.categoryForm(true, "", undefined);
+        this.#videoSystemView.bindNewCategory(this.handleCreateCategory);
+    }
+
+    onClickLogInForm = () => {
         this.#videoSystemView.bindNewCategory(this.handleCreateCategory);
     }
 
@@ -404,7 +446,7 @@ class videoSystemController {
             try {
                 this.#videoSystemModel.removeCategory(this.#videoSystemModel.getCategoryByName(name));
                 done = true;
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
             }
@@ -412,7 +454,7 @@ class videoSystemController {
             try {
                 this.#videoSystemModel.addCategory(this.#videoSystemModel.categoryFactory(name, desc));
                 done = true;
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
             }
@@ -434,7 +476,7 @@ class videoSystemController {
                 try {
                     this.#videoSystemModel.removeActor(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -446,7 +488,7 @@ class videoSystemController {
                         this.#videoSystemModel.addActor(this.#videoSystemModel.personFactory(name, dni, lastName, born, LastNameTwo));
                     }
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -456,7 +498,7 @@ class videoSystemController {
                 try {
                     this.#videoSystemModel.removeDirector(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -468,7 +510,7 @@ class videoSystemController {
                         this.#videoSystemModel.addDirector(this.#videoSystemModel.PersonFactory(name, dni, lastName, born, LastNameTwo));
                     }
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -487,7 +529,7 @@ class videoSystemController {
                 try {
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -509,7 +551,7 @@ class videoSystemController {
                     });
 
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -519,7 +561,7 @@ class videoSystemController {
                 try {
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -541,7 +583,7 @@ class videoSystemController {
                     });
 
                     done = true;
-                    this.onInit();
+                    this.onLogIn();
                 } catch (exception) {
                     done = false;
                 }
@@ -571,58 +613,79 @@ class videoSystemController {
         if (des) {
             try {
                 if (actor != "") {
-                    this.#videoSystemModel.deassignActor(actorUsed, production);                   
-                    doneActor=true;
+                    this.#videoSystemModel.deassignActor(actorUsed, production);
+                    doneActor = true;
                 }
                 done = true;
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
-                doneActor=false;
+                doneActor = false;
             }
             try {
                 if (direct != "") {
-                    this.#videoSystemModel.deassignDirector(directorUsed, production);                
-                    doneDirect= true;
+                    this.#videoSystemModel.deassignDirector(directorUsed, production);
+                    doneDirect = true;
                 }
-                if (done!=false) {
+                if (done != false) {
                     done = true;
                 }
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
-                doneDirect= false;
+                doneDirect = false;
             }
         } else {
             try {
                 if (actor != "") {
-                    this.#videoSystemModel.assignActor(actorUsed, production);                   
-                    doneActor=true;
+                    this.#videoSystemModel.assignActor(actorUsed, production);
+                    doneActor = true;
                 }
 
                 done = true;
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
-                doneActor=false;
+                doneActor = false;
             }
             try {
                 if (direct != "") {
-                    this.#videoSystemModel.assignDirector(directorUsed, production);                
-                    doneDirect= true;
+                    this.#videoSystemModel.assignDirector(directorUsed, production);
+                    doneDirect = true;
                 }
-                if (done!=false) {
+                if (done != false) {
                     done = true;
                 }
-                this.onInit();
+                this.onLogIn();
             } catch (exception) {
                 done = false;
-                doneDirect= false;
+                doneDirect = false;
             }
         }
-        this.#videoSystemView.castingForm(this.#videoSystemModel.Productions, this.#videoSystemModel.Actors, this.#videoSystemModel.Directors, done, actor, doneActor,direct, doneDirect, prod, des);
+        this.#videoSystemView.castingForm(this.#videoSystemModel.Productions, this.#videoSystemModel.Actors, this.#videoSystemModel.Directors, done, actor, doneActor, direct, doneDirect, prod, des);
         if (done) this.#videoSystemView.bindChangeCasting(this.handleChangeCasting);
 
+    }
+
+    HandleLogIn = (user, passwd) => {
+        if (this.#videoSystemModel.checkLogin(user, passwd)) {
+            document.cookie = `Cookie1 = ${user}`;
+            this.onLogIn();
+        } else {
+            this.failedLogIn();
+        }
+    }
+
+    onClickLogOff = () => {
+       this.setCookie("Cookie1");
+       this.onInit();
+    }
+
+    setCookie(cname) {
+        const d = new Date();
+        d.setTime(d.getTime());
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + ";" + expires + ";path=/";
     }
 }
 

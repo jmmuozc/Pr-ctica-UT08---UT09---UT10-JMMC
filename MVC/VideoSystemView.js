@@ -1,7 +1,7 @@
 "use strict";
 
 import Production from "../js/Production.js";
-import { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting } from "./validation.js";
+import { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting,logIn } from "./validation.js";
 
 class videoSystemView {
 
@@ -89,6 +89,60 @@ class videoSystemView {
       categoryLink.innerHTML = `<a class="dropdown-item" href="#Category">${category.Name}</a>`;
       categoriesUl.appendChild(categoryLink);
     }
+  }
+
+  headerLogged(username){
+    let nav = document.getElementById("navbarUl");
+    if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
+    if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
+    if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
+    let formsLi = document.createElement("li");
+    formsLi.classList.add("nav-item");
+    formsLi.classList.add("dropdown");
+    formsLi.setAttribute("Id", "nav-forms");
+    formsLi.innerHTML = `<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Form</a>`;
+    nav.appendChild(formsLi);
+    let formUl = document.createElement("ul");
+    formUl.setAttribute("Id", "forms-ul");
+    formUl.classList.add("dropdown-menu");
+    formUl.innerHTML=`
+    <li>
+    <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#Modal" id="FormProduction">
+      Producciones
+    </button>
+  </li>
+  <li>
+    <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#Modal" id="FormCasting">
+      Asignar reparto
+    </button>
+  </li>
+  <li>
+    <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#Modal" id="FormCategory">
+     Categorias
+    </button>
+  </li>
+  <li>
+    <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#Modal" id="FormPerson">
+      Personas
+    </button>
+  </li>`;
+    formsLi.appendChild(formUl);
+
+    let greetLi= document.createElement("li");
+    greetLi.classList.add("nav-item");
+    greetLi.classList.add("dropdown");
+    greetLi.setAttribute("Id", "nav-greeting");
+    greetLi.innerHTML = ` <a class="nav-link disabled" href="#">Bienvenido ${username}</a>`;
+    nav.appendChild(greetLi);
+
+    let logOffLi= document.createElement("li");
+    logOffLi.classList.add("nav-item");
+    logOffLi.classList.add("dropdown");
+    logOffLi.setAttribute("Id", "nav-logOff");
+    logOffLi.innerHTML = ` <button type="button" class="btn btn-light" id="log-off" aria-current="page">Cerrar Sesion</button>`;
+    nav.appendChild(logOffLi);
+
+
   }
 
   /**
@@ -841,12 +895,12 @@ class videoSystemView {
     }
   }
 
-  castingForm(productionList, actorList, directorList,done,actor,doneActor,director,doneDirector,title,del) {
+  castingForm(productionList, actorList, directorList, done, actor, doneActor, director, doneDirector, title, del) {
     let modal = document.getElementById("formModal");
     if (document.getElementById("errorDiv")) modal.removeChild(document.getElementById("errorDiv"));
     let form = document.getElementById("formModal");
     if (done) {
-    form.innerHTML = ` <div class="container" id="cValidation" >
+      form.innerHTML = ` <div class="container" id="cValidation" >
         <h1 class="display-5">Asignar Reparto</h1>
         <form name="fChangeCasting" role="form" id="form-validation">
           <div class="col-md-4 mb-3 w-50" >
@@ -863,11 +917,11 @@ class videoSystemView {
           </form>
           `;
 
-    let dinamicHolder = document.getElementById("dinamicHolder");
+      let dinamicHolder = document.getElementById("dinamicHolder");
 
-    let dinamicContents = document.createElement("div");
-    dinamicContents.classList.add("row");
-    dinamicContents.innerHTML = `<div class="col-md-4 mb-3 w-100">
+      let dinamicContents = document.createElement("div");
+      dinamicContents.classList.add("row");
+      dinamicContents.innerHTML = `<div class="col-md-4 mb-3 w-100">
         <label for="Production">Production</label>
         <div class="input-group">
         <select class="form-select" aria-label="select example" id="productionSelect">
@@ -896,123 +950,123 @@ class videoSystemView {
         </div>
         `;
 
-    dinamicHolder.appendChild(dinamicContents);
+      dinamicHolder.appendChild(dinamicContents);
 
-    let dinamicDirectors = document.getElementById("directorSelect");
-    for (let director of directorList) {
-      let option = document.createElement("option");
-      option.setAttribute("value", director.dni);
-      option.innerText = `${director.Name} ${director.FirstLastName}`;
-      dinamicDirectors.appendChild(option);
-    }
-
-    let dinamicActors = document.getElementById("actorSelect");
-    for (let actor of actorList) {
-      let option = document.createElement("option");
-      option.setAttribute("value", actor.dni);
-      option.innerText = `${actor.Name} ${actor.FirstLastName}`;
-      dinamicActors.appendChild(option);
-    }
-
-    let dinamicCategory = document.getElementById("productionSelect");
-    for (let production of productionList) {
-      let option = document.createElement("option");
-      option.setAttribute("value", production.Title);
-      option.innerText = `${production.Title}`;
-      dinamicCategory.appendChild(option);
-    }
-    if (del) {
-      let errorDiv = document.createElement("div");
-      errorDiv.setAttribute("Id", "errorDiv")
-    
-      if (doneActor==true) {
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha desasignado con exito.</div>`;
-        errorDiv.appendChild(errorActorDiv);
-      }
-      if(doneDirector==true) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> se ha desasignado con exito.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
+      let dinamicDirectors = document.getElementById("directorSelect");
+      for (let director of directorList) {
+        let option = document.createElement("option");
+        option.setAttribute("value", director.dni);
+        option.innerText = `${director.Name} ${director.FirstLastName}`;
+        dinamicDirectors.appendChild(option);
       }
 
-      form.appendChild(errorDiv);
-
-    } else if (del == false) {
-      let errorDiv = document.createElement("div");
-      errorDiv.setAttribute("Id", "errorDiv")
-
-      if (doneActor==true) {
-        console.log("Correcto")
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
-        errorDiv.appendChild(errorActorDiv);
+      let dinamicActors = document.getElementById("actorSelect");
+      for (let actor of actorList) {
+        let option = document.createElement("option");
+        option.setAttribute("value", actor.dni);
+        option.innerText = `${actor.Name} ${actor.FirstLastName}`;
+        dinamicActors.appendChild(option);
       }
-      if(doneDirector==true) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> se ha asignado con exito.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
+
+      let dinamicCategory = document.getElementById("productionSelect");
+      for (let production of productionList) {
+        let option = document.createElement("option");
+        option.setAttribute("value", production.Title);
+        option.innerText = `${production.Title}`;
+        dinamicCategory.appendChild(option);
       }
-      form.appendChild(errorDiv);
+      if (del) {
+        let errorDiv = document.createElement("div");
+        errorDiv.setAttribute("Id", "errorDiv")
+
+        if (doneActor == true) {
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha desasignado con exito.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == true) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> se ha desasignado con exito.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+
+        form.appendChild(errorDiv);
+
+      } else if (del == false) {
+        let errorDiv = document.createElement("div");
+        errorDiv.setAttribute("Id", "errorDiv")
+
+        if (doneActor == true) {
+          console.log("Correcto")
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == true) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> se ha asignado con exito.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+        form.appendChild(errorDiv);
+      } else {
+
+      }
     } else {
+      if (del) {
+        let errorDiv = document.createElement("div");
+        errorDiv.setAttribute("Id", "errorDiv")
+
+        if (doneActor == false) {
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> no existe en la produccion <strong>${title}</strong>.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == false) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> no existe en la produccion <strong>${title}</strong>.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+
+        if (doneActor == true) {
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha desasignado con exito.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == true) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> se ha desasignado con exito.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+
+        form.appendChild(errorDiv);
+      } else if (del == false) {
+        let errorDiv = document.createElement("div");
+        errorDiv.setAttribute("Id", "errorDiv")
+        if (doneActor == false) {
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> ya existe en la produccion <strong>${title}</strong>.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == false) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> ya existe en la produccion <strong>${title}</strong>.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+        if (doneActor == true) {
+          console.log("Correcto")
+          let errorActorDiv = document.createElement("div");
+          errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
+          errorDiv.appendChild(errorActorDiv);
+        }
+        if (doneDirector == true) {
+          let errorDirectorDiv = document.createElement("div");
+          errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> se ha asignado con exito.</div>`;
+          errorDiv.appendChild(errorDirectorDiv);
+        }
+        form.appendChild(errorDiv);
+      }
 
     }
-  } else {
-    if (del) {
-      let errorDiv = document.createElement("div");
-      errorDiv.setAttribute("Id", "errorDiv")
-     
-      if (doneActor==false) {
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> no existe en la produccion <strong>${title}</strong>.</div>`;
-        errorDiv.appendChild(errorActorDiv);
-      }
-      if(doneDirector==false) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> no existe en la produccion <strong>${title}</strong>.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
-      }
-
-      if (doneActor==true) {
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha desasignado con exito.</div>`;
-        errorDiv.appendChild(errorActorDiv);
-      }
-      if(doneDirector==true) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i>El/La director/directora <strong>${director}</strong> se ha desasignado con exito.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
-      }
-      
-      form.appendChild(errorDiv);
-    } else if (del == false) {
-      let errorDiv = document.createElement("div");
-      errorDiv.setAttribute("Id", "errorDiv")
-      if (doneActor==false) {
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> ya existe en la produccion <strong>${title}</strong>.</div>`;
-        errorDiv.appendChild(errorActorDiv);
-      }
-      if(doneDirector==false) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> ya existe en la produccion <strong>${title}</strong>.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
-      }
-      if (doneActor==true) {
-        console.log("Correcto")
-        let errorActorDiv=document.createElement("div");
-        errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
-        errorDiv.appendChild(errorActorDiv);
-      }
-      if(doneDirector==true) {
-        let errorDirectorDiv=document.createElement("div");
-        errorDirectorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La director/directora <strong>${director}</strong> se ha asignado con exito.</div>`;
-        errorDiv.appendChild(errorDirectorDiv);
-      }
-      form.appendChild(errorDiv);
-    }
-
-  }
   }
 
 
@@ -1097,6 +1151,54 @@ class videoSystemView {
 
     }
 
+  }
+
+  loginForm() {
+    let nav = document.getElementById("navbarUl");
+    if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
+    if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
+    if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
+    
+    if (document.getElementById("div-Contents")) this.main.removeChild(document.getElementById("div-Contents"));
+    if (document.getElementById("div-categories")) this.main.removeChild(document.getElementById("div-categories"));
+    let loginContainer = document.createElement("div");
+    // Le añadimos una clase (container)
+    loginContainer.classList.add("container");
+    loginContainer.classList.add("text-center");
+    loginContainer.setAttribute("Id", "div-Contents");
+    loginContainer.setAttribute("height", "200px");
+   
+    let form = document.createElement("form");
+    form.setAttribute("name", "fLogin");
+    form.setAttribute("role", "form");
+    form.setAttribute("id", "form-validation");
+    form.innerHTML = ` <div class="form-row">
+    <div class="row">
+      <div class="col-md-4 mb-3 w-100" >
+        <label for="vfUsuario">Usuario</label>
+        <div class="input-group">
+              
+          <input type="text" class="form-control" id="vfUsuario" name="vfUsuario" placeholder="Usuario"
+            aria-describedby="namePrepend" value="" required>
+          <div class="invalid-feedback">El Nombre es obligatorio.</div>
+          <div class="valid-feedback">Correcto.</div>
+        </div>
+        </div>
+        <div class="col-md-4 mb-3 w-100" >
+        <label for="vfPasswd">Contraseña</label>
+        <div class="input-group">
+              
+          <input type="password" class="form-control" id="vfPasswd" name="vfPasswd" placeholder="Passwd"
+            aria-describedby="passwdPrepend" value="" required>
+          <div class="invalid-feedback">La contraseña es obligatoria.</div>
+          <div class="valid-feedback">Correcto.</div>
+        </div>
+        </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        `;
+        this.main.appendChild(loginContainer);
+        loginContainer.appendChild(form);
   }
 
   /**
@@ -1315,13 +1417,13 @@ class videoSystemView {
 
   }
 
-    /**
-   * Funcion que llama a la validacion de la nueva categoria
-   * @param {Function} handler 
-   */
-    bindChangeCasting(handler) {
-      changeCasting(handler);
-    }
+  /**
+ * Funcion que llama a la validacion de asignar casting
+ * @param {Function} handler 
+ */
+  bindChangeCasting(handler) {
+    changeCasting(handler);
+  }
 
   /**
    * Funcion que añade un evento a los elementos con la clase formCategory
@@ -1359,6 +1461,25 @@ class videoSystemView {
     newPersonValidation(handler);
   }
 
+  
+  /**
+   * Funcion que añade un evento a los elementos con la clase formPerson
+   * @param {Function} handler 
+  */
+  bindLogOff(handler) {
+    document.getElementById("log-off").addEventListener("click", (event) => {
+      handler()
+    });
+
+  }
+
+  /**
+ * Funcion que llama al nuevo logIn
+ * @param {Function} handler 
+ */
+  bindLogIn(handler) {
+    logIn(handler);
+  }
 
 }
 

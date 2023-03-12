@@ -607,7 +607,7 @@ let videoSystem = (function () {
                     if (this.#getProductionPosition(element, this.#DirectorList[directorPosition].productions) === -1) {
                         // Añade la referencia de la produccion a la array de producciones del director
                         this.#DirectorList[directorPosition].productions.push(this.#ProductionsList[this.#getProductionPosition(element)]);
-                    }else throw new ProductionExists();
+                    } else throw new ProductionExists();
                 });
                 return this.#DirectorList[directorPosition].length;
             }
@@ -634,7 +634,7 @@ let videoSystem = (function () {
                         if (prodPosition > -1) {
                             // En caso de que exista lo elimina de la array de producciones del director
                             this.#DirectorList[directorPosition].productions.splice(prodPosition, 1);
-                        }else throw new ProductionNoExists;
+                        } else throw new ProductionNoExists;
                         // En caso de que no exista la produccion se manda un mensaje y se continua con el resto de producciones
                     } else throw new ProductionNoExists;
                 });
@@ -661,7 +661,7 @@ let videoSystem = (function () {
                     if (this.#getProductionPosition(element, this.#ActorList[actorPosition].productions) === -1) {
                         // Añade la referencia de la produccion a la array de producciones del actores
                         this.#ActorList[actorPosition].productions.push(this.#ProductionsList[this.#getProductionPosition(element)]);
-                    }else throw new ProductionExists();
+                    } else throw new ProductionExists();
                 });
                 return this.#ActorList[actorPosition].productions.length;
             }
@@ -688,7 +688,7 @@ let videoSystem = (function () {
                         if (prodPosition > -1) {
                             // En caso de que exista lo elimina de la array de producciones del actor
                             this.#ActorList[actorPosition].productions.splice(prodPosition, 1);
-                        }else throw new ProductionNoExists;
+                        } else throw new ProductionNoExists;
                         // En caso de que no exista la produccion se manda un mensaje y se continua con el resto de producciones
                     } else throw new ProductionNoExists;
                 });
@@ -859,6 +859,14 @@ let videoSystem = (function () {
                 }
             }
 
+            checkLogin(user, passwd) {
+                for (let users of this.#Users) {
+                    if (users.Username==user) {
+                        return passwd == users.Password;
+                    }
+                }
+                return false;
+            }
             /**
              * Crea un objeto Person
              * @param {String} name 
