@@ -229,6 +229,15 @@ class videoSystemController {
         this.#videoSystemView.bindFormCasting(this.HandleCastingForm);
         this.#videoSystemView.bindFormCategory(this.HandleCategoryForm);
         this.#videoSystemView.bindFormPerson(this.HandlePersonForm);
+
+        this.#videoSystemView.bindWindow(this.handleCloseWindows);
+        this.#videoSystemView.bindCategory(this.handleCategory);
+        this.#videoSystemView.bindSeries(this.handleSeries);
+        this.#videoSystemView.bindMovies(this.handleMovies);
+        this.#videoSystemView.bindActors(this.handleActors);
+        this.#videoSystemView.bindDirectors(this.handleDirectors);
+        this.#videoSystemView.bindProductionCard(this.HandleProduction);
+        this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
     }
 
     failedLogIn = () => {
