@@ -466,7 +466,8 @@ class videoSystemView {
 
     productionInfoContainer.innerHTML = `<h4>${production.Title}</h4>
         <h2>${production.Publication.toISOString().split("T")[0]}</h2>
-        <p>${production.Synopsis}</p>`;
+        <p>${production.Synopsis}</p>
+        <button class="btn btn-primary add-favorite" data-production='${production.Title}'>Favorito</button>`;
 
     productionContainer.appendChild(productionInfoContainer);
 
