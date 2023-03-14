@@ -14,7 +14,7 @@ class Production {
         if (!nationalityPattern.test(nationality)) throw new InvalidString();
         if (!imgPattern.test(image)) throw new InvalidFile();
         this.#Title = title;
-        this.#Publication = stringToDate(publication);
+        this.#Publication = publication;
         this.#Nationality = nationality;
         this.#Synopsis = synopsis;
         this.#Image = image;

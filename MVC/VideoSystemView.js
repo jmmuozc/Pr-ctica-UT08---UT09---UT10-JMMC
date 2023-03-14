@@ -1,6 +1,7 @@
 "use strict";
 
 import Production from "../js/Production.js";
+import {stringToDate} from "../js/Modules.js";
 import { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting,logIn } from "./validation.js";
 
 class videoSystemView {
@@ -464,8 +465,10 @@ class videoSystemView {
     productionInfoContainer.classList.add("text-center");
     productionInfoContainer.classList.add("col");
 
+    let publication=stringToDate(production.Publication);
+
     productionInfoContainer.innerHTML = `<h4>${production.Title}</h4>
-        <h2>${production.Publication.toISOString().split("T")[0]}</h2>
+        <h2>${publication.toISOString().split("T")[0]}</h2>
         <p>${production.Synopsis}</p>
         <button class="btn btn-primary add-favorite" data-production='${production.Title}'>Favorito</button>`;
 
@@ -998,7 +1001,6 @@ class videoSystemView {
         errorDiv.setAttribute("Id", "errorDiv")
 
         if (doneActor == true) {
-          console.log("Correcto")
           let errorActorDiv = document.createElement("div");
           errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
           errorDiv.appendChild(errorActorDiv);
@@ -1054,7 +1056,6 @@ class videoSystemView {
           errorDiv.appendChild(errorDirectorDiv);
         }
         if (doneActor == true) {
-          console.log("Correcto")
           let errorActorDiv = document.createElement("div");
           errorActorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La actor/actriz <strong>${actor}</strong> se ha asignado con exito.</div>`;
           errorDiv.appendChild(errorActorDiv);

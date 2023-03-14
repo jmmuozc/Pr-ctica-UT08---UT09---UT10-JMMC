@@ -546,8 +546,16 @@ let videoSystem = (function () {
                 // En caso de que no exista lo crea
                 if (catPosition === -1) this.addCategory(category);
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production = production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
+
                     // En caso de que no exista la produccion la agrega al array principal de producciones
                     if (this.#getProductionPosition(element) === -1) this.addProductions(element);
                     // En caso de que no exista la produccion dentro de las producciones de la categoria introducida
@@ -571,8 +579,15 @@ let videoSystem = (function () {
                 if (catPosition === -1) throw new CategoryNoExists;
                 let prodPosition;
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production = production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
                     // En caso de que exista la produccion indicada
                     if (this.#getProductionPosition(element) > -1) {
                         // Recoge la posicion de la produccion dentro de la categoria indicada
@@ -599,8 +614,15 @@ let videoSystem = (function () {
                 let directorPosition = this.#getDirectorPosition(director);
                 if (directorPosition === -1) this.#DirectorList.push(director);
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production = production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
                     // En caso de que no exista la produccion la agrega al array principal de producciones
                     if (this.#getProductionPosition(element) === -1) this.addProductions(element);
                     // En caso de que no exista la produccion dentro de las producciones del director introducida
@@ -625,8 +647,15 @@ let videoSystem = (function () {
                 if (directorPosition === -1) throw new DirectorNoExists;
                 let prodPosition;
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production=production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
                     // Comprueba si existe la produccion dentro del array de producciones principal
                     if (this.#getProductionPosition(element) > -1) {
                         // Recoge la posicion de la produccion dentro del director indicada
@@ -653,8 +682,15 @@ let videoSystem = (function () {
                 let actorPosition = this.#getActorPosition(actor);
                 if (actorPosition === -1) this.#ActorList.push(actor);
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production=production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
                     // En caso de que no exista la produccion la agrega al array principal de producciones
                     if (this.#getProductionPosition(element) === -1) this.addProductions(element);
                     // En caso de que no exista la produccion dentro de las producciones del actor introducido
@@ -679,8 +715,15 @@ let videoSystem = (function () {
                 if (actorPosition === -1) throw new ActorNoExists();
                 let prodPosition;
                 // Por cada produccion facilitada
+                if (production instanceof Array) {
+                    production=production[0];
+                }
                 production.forEach(element => {
-                    if (!(element instanceof Production)) throw new InvalidObject();
+                    try {
+                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                    } catch (error) {
+                        throw new InvalidObject();
+                    }
                     // Comprueba si existe la produccion dentro del array de producciones principal
                     if (this.#getProductionPosition(element) > -1) {
                         // Recoge la posicion de la produccion dentro del actor indicada
@@ -861,7 +904,7 @@ let videoSystem = (function () {
 
             checkLogin(user, passwd) {
                 for (let users of this.#Users) {
-                    if (users.Username==user) {
+                    if (users.Username == user) {
                         return passwd == users.Password;
                     }
                 }
@@ -884,7 +927,7 @@ let videoSystem = (function () {
                 // Comprueba la posicion de la persona creada en la array de Director
                 let positionDirector = this.#getDirectorPosition(createdPerson);
                 // Comprobamos si existe la persona como Actor o como Director
-                if (positionDirector == -1 && positionActor == -1) {
+                if (positionDirector == -1 || positionActor == -1) {
                     // Devuelve la persona
                     return createdPerson;
                 } else throw new PersonExists();
