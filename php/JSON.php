@@ -1,15 +1,17 @@
 <?php
 $time = time();
 
-if(isset($_POST['fBackup']))
+if(isset($_POST['JSON']))
 {
-	$backup = $_POST['backup'];
+	$backup = $_POST['JSON'];
 	$string = $time.".json";
-	$file= fopen("./backup/$string", "a+") or die("Error");
+	$file= fopen("../backup/$string", "a+") or die("Error");
 	fwrite($file, $backup);
 
 	fclose($file);
+
+	echo TRUE;
 }
 
-header("Location: index.html");
+// header("Location: index.html");
 ?>
