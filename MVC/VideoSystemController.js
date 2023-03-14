@@ -167,12 +167,14 @@ class videoSystemController {
         this.onClickSeries();
         this.#videoSystemView.bindProductionCard(this.HandleProduction);
         this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
+        this.#videoSystemView.bindFavorite(this.HandleFavorites);
     }
 
     handleMovies = () => {
         this.onClickMovies();
         this.#videoSystemView.bindProductionCard(this.HandleProduction);
         this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
+        this.#videoSystemView.bindFavorite(this.HandleFavorites);
     }
 
 
@@ -240,8 +242,13 @@ class videoSystemController {
     HandlePersonForm = () => {
         this.onClickPersonForm();
     }
+    
     HandleLogOff = () => {
         this.onClickLogOff();
+    }
+
+    HandleFavorites = () => {
+        this.onClickFavorite();
     }
 
     onClickClosewindows = () => {
@@ -379,7 +386,7 @@ class videoSystemController {
         let base = location.protocol + "//" + location.host + location.pathname;
         let url = new URL("php/JSON.php",base);
         let formData= new FormData();
-        formData.append("JSON",this.#videoSystemModel.backupGenerator());
+        formData.append("JSON",this.#videoSystemModel.backupGenerator(this.#deletedObjects));
 
         fetch(url,{
             method: 'post',
@@ -618,6 +625,23 @@ class videoSystemController {
 
     handleBackUp = () => {
         this.onClickBackUp();
+    }
+
+    onClickFavorite = (title) => {
+        console.log("Marihuana")
+        let cookie1 = document.cookie.replace(/(?:(?:^|.*;\s*)Cookie1\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (cookie1!="") {       
+            if (localStorage.getItem(cookie1)!=null) {
+                let arrayfav=localStorage.getItem(cookie1).split("/");
+                if (!arrayfav.includes(title)){
+                    
+                    let fav=localStorage.getItem(cookie1);
+                    localStorage.setItem(cookie1,fav+"/"+title);
+                } 
+            }else{
+                localStorage.setItem(cookie1,title);
+            }
+        }
     }
 }
 

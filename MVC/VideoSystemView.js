@@ -150,6 +150,13 @@ class videoSystemView {
     backUpLi.setAttribute("Id", "nav-backUp");
     backUpLi.innerHTML = `<button class="nav-link bg-transparent border-0 ps-3 pe-3" type="submit" name="fbBackup" id="fbBackup">Backup</button>`;
     nav.appendChild(backUpLi);
+    
+    let FavoritesLi = document.createElement("li");
+    FavoritesLi.classList.add("nav-item");
+    FavoritesLi.classList.add("dropdown");
+    FavoritesLi.setAttribute("Id", "nav-favorites");
+    FavoritesLi.innerHTML = `<a class="dropdown-item" href="#Favorites">Favoritos</a>`;
+    nav.appendChild(FavoritesLi);
   }
 
   /**
@@ -1491,6 +1498,20 @@ class videoSystemView {
     });
 
   }
+
+    /**
+   * Funcion que añade un evento a los elementos con la clase add-favorite
+   * @param {Function} handler 
+   */
+    bindFavorite(handler) {
+      for (let element of document.getElementsByClassName('add-favorite')) {
+        element.addEventListener("click", (event) => {
+          handler(element.dataset.production)
+        });
+  
+      }
+    }
+  
 
   /**
  * Funcion que llama al nuevo logIn

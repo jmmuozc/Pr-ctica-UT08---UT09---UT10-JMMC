@@ -1015,7 +1015,7 @@ let videoSystem = (function () {
             }
 
 
-            backupGenerator() {
+            backupGenerator(deletedObjects) {
                 let ListJSON = {
                     Category: [],
                     Person: { Actor: [], Director: [] },
@@ -1123,6 +1123,7 @@ let videoSystem = (function () {
                     ListJSON.User.push(userJSON);
                 }
 
+                Object.assign(ListJSON,deletedObjects)
                 return JSON.stringify(ListJSON);
             }
         }
