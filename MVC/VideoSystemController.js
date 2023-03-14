@@ -375,6 +375,7 @@ class videoSystemController {
     }
 
     onClickBackUp = () =>{
+        console.log("Saquenme de venezuela");
         let base = location.protocol + "//" + location.host + location.pathname;
         let url = new URL("JSON.php",base);
         let formData= new FormData();

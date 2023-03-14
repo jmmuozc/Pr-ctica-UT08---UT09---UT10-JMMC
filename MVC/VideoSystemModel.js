@@ -1032,7 +1032,8 @@ let videoSystem = (function () {
                         Description: category.Description,
                         Producciones:[]
                     }
-                    for (let productions of getProductionsCategory(category)) {
+                    let categoryProductions=this.getProductionsCategory(category);
+                    for (let productions of categoryProductions) {
                         categoryJSON.Producciones.push(productions.Title);
                     }
 

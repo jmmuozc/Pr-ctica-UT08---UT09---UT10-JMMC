@@ -97,6 +97,7 @@ class videoSystemView {
     if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
     if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
     if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
+    if (document.getElementById("nav-backUp")) nav.removeChild(document.getElementById("nav-backUp"));
     let formsLi = document.createElement("li");
     formsLi.classList.add("nav-item");
     formsLi.classList.add("dropdown");
