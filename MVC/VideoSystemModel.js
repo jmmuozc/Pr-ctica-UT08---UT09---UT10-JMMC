@@ -1022,22 +1022,105 @@ let videoSystem = (function () {
                     User: [],
                     Production: { Movie: [], Serie: [] }
                 }
-                
+
+                for (let movie of this.Movies) {
+
+                    let movieJSON;
+
+                    movieJSON = {
+                        Title: movie.Title,
+                        Nationality: movie.Nationality,
+                        Publication: movie.Publication,
+                        Synopsis: movie.Synopsis,
+                        Image: movie.Image,
+                        Resource: movie.Resource,
+                        Location: movie.Locations,
+                    }
+
+                    ListJSON.Production.Movie.push(movieJSON);
+                }
+
+                for (let serie of this.Series) {
+
+                    let serieJSON;
+
+                    serieJSON = {
+                        Title: serie.Title,
+                        Nationality: serie.Nationality,
+                        Publication: serie.Publication,
+                        Synopsis: serie.Synopsis,
+                        Image: serie.Image,
+                        Resource: serie.Resource,
+                        Location: serie.Locations,
+                        Seasons: serie.Seasons
+                    }
+
+                    ListJSON.Production.Serie.push(serieJSON);
+                }
+
                 for (let category of this.CategoriesList) {
-                    
+
                     let categoryJSON;
 
-                    categoryJSON={
+                    categoryJSON = {
                         Title: category.Name,
                         Description: category.Description,
-                        Producciones:[]
+                        Producciones: []
                     }
-                    let categoryProductions=this.getProductionsCategory(category);
+                    let categoryProductions = this.getProductionsCategory(category);
                     for (let productions of categoryProductions) {
                         categoryJSON.Producciones.push(productions.Title);
                     }
 
                     ListJSON.Category.push(categoryJSON);
+                }
+
+                for (let actor of this.Actors) {
+                    let actorJSON;
+                    actorJSON = {
+                        name: actor.Name,
+                        lastname1: actor.FirstLastName,
+                        lastname2: actor.SecondLastName,
+                        born: actor.Born,
+                        picture: actor.Picture,
+                        dni: actor.dni,
+                        Producciones: []
+                    }
+                    let ProductionsActor=this.getProductionsActor(actor);
+                    for (let production of ProductionsActor) {
+                     actorJSON.Producciones.push(production.Title)   
+                    }
+
+                    ListJSON.Person.Actor.push(actorJSON);
+                }
+
+                for (let director of this.Directors) {
+                    let directorJSON;
+                    directorJSON = {
+                        name: director.Name,
+                        lastname1: director.FirstLastName,
+                        lastname2: director.SecondLastName,
+                        born: director.Born,
+                        picture: director.Picture,
+                        dni: director.dni,
+                        Producciones: []
+                    }
+                    let ProductionsDirector=this.getProductionsDirector(director);
+                    for (let production of ProductionsDirector) {
+                     directorJSON.Producciones.push(production.Title)   
+                    }
+
+                    ListJSON.Person.Director.push(directorJSON);
+                }
+
+                for (let user of this.Users) {
+                    let userJSON;
+                    userJSON = {
+                        Username: user.Username,
+                        Email: user.Email,
+                        Password: user.Password,
+                    }
+                    ListJSON.User.push(userJSON);
                 }
 
                 return JSON.stringify(ListJSON);
