@@ -5,6 +5,12 @@ class videoSystemController {
     //Campos privados
     #videoSystemModel;
     #videoSystemView;
+    #deletedObjects={
+        Category:[],
+        Person:{Actor:[],Director:[]},
+        User:[],
+        Production:{Movie:[],Serie:[]}
+    };
 
     // #loadDefaultObjects() {
 
@@ -118,6 +124,7 @@ class videoSystemController {
         this.#videoSystemView.bindFormCategory(this.HandleCategoryForm);
         this.#videoSystemView.bindFormPerson(this.HandlePersonForm);
 
+        this.#videoSystemView.bindBackUp(this.handleBackUp);
         this.#videoSystemView.bindWindow(this.handleCloseWindows);
         this.#videoSystemView.bindCategory(this.handleCategory);
         this.#videoSystemView.bindSeries(this.handleSeries);
@@ -341,6 +348,7 @@ class videoSystemController {
 
         if (del) {
             try {
+                this.#deletedObjects.Category.push(this.#videoSystemModel.getCategoryByName(name));
                 this.#videoSystemModel.removeCategory(this.#videoSystemModel.getCategoryByName(name));
                 done = true;
                 this.onLogIn();
@@ -366,11 +374,30 @@ class videoSystemController {
         this.#videoSystemView.bindNewPerson(this.handleCreatePerson);
     }
 
+    onClickBackUp = () =>{
+        let base = location.protocol + "//" + location.host + location.pathname;
+        let url = new URL("JSON.php",base);
+        let formData= new FormData();
+        formData.append("JSON",this.#videoSystemModel.backupGenerator());
+
+        fetch(url,{
+            method: 'post',
+            body:formData
+        }).then(function (response) {
+            return response.json();
+        }).then(function(data){
+            console.dir(data);
+        }).catch(function(err){
+            console.log("No se ha recibido respuesta.");
+        });
+    }
+
     handleCreatePerson = (type, name, del, born, dni, lastName, LastNameTwo) => {
         let done;
         if (type == "Actor") {
             if (del) {
                 try {
+                    this.#deletedObjects.Person.Actor.push(this.#videoSystemModel.getPersonByDNI(dni));
                     this.#videoSystemModel.removeActor(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
                     this.onLogIn();
@@ -393,6 +420,7 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
+                    this.#deletedObjects.Person.Director.push(this.#videoSystemModel.getPersonByDNI(dni));
                     this.#videoSystemModel.removeDirector(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
                     this.onLogIn();
@@ -424,6 +452,7 @@ class videoSystemController {
         if (type == "Serie") {
             if (del) {
                 try {
+                    this.#deletedObjects.Production.Serie.push(this.#videoSystemModel.getProductionByTitle(title));
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
                     this.onLogIn();
@@ -456,6 +485,7 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
+                    this.#deletedObjects.Production.Movie.push(this.#videoSystemModel.getProductionByTitle(title));
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
                     this.onLogIn();
@@ -583,6 +613,10 @@ class videoSystemController {
         d.setTime(d.getTime());
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + ";" + expires + ";path=/";
+    }
+
+    handleBackUp = () => {
+        this.onClickBackUp();
     }
 }
 

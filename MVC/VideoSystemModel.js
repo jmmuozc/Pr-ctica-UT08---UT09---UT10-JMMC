@@ -648,11 +648,11 @@ let videoSystem = (function () {
                 let prodPosition;
                 // Por cada produccion facilitada
                 if (production instanceof Array) {
-                    production=production[0];
+                    production = production[0];
                 }
                 production.forEach(element => {
                     try {
-                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
                     } catch (error) {
                         throw new InvalidObject();
                     }
@@ -683,11 +683,11 @@ let videoSystem = (function () {
                 if (actorPosition === -1) this.#ActorList.push(actor);
                 // Por cada produccion facilitada
                 if (production instanceof Array) {
-                    production=production[0];
+                    production = production[0];
                 }
                 production.forEach(element => {
                     try {
-                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
                     } catch (error) {
                         throw new InvalidObject();
                     }
@@ -716,11 +716,11 @@ let videoSystem = (function () {
                 let prodPosition;
                 // Por cada produccion facilitada
                 if (production instanceof Array) {
-                    production=production[0];
+                    production = production[0];
                 }
                 production.forEach(element => {
                     try {
-                        if (!(element instanceof Production)) element=this.getProductionByTitle(element);
+                        if (!(element instanceof Production)) element = this.getProductionByTitle(element);
                     } catch (error) {
                         throw new InvalidObject();
                     }
@@ -1012,6 +1012,34 @@ let videoSystem = (function () {
                     // Devuelve el objeto serie
                     return createdSerie;
                 } else throw new ProductionExists();
+            }
+
+
+            backupGenerator() {
+                let ListJSON = {
+                    Category: [],
+                    Person: { Actor: [], Director: [] },
+                    User: [],
+                    Production: { Movie: [], Serie: [] }
+                }
+                
+                for (let category of this.CategoriesList) {
+                    
+                    let categoryJSON;
+
+                    categoryJSON={
+                        Title: category.Name,
+                        Description: category.Description,
+                        Producciones:[]
+                    }
+                    for (let productions of getProductionsCategory(category)) {
+                        categoryJSON.Producciones.push(productions.Title);
+                    }
+
+                    ListJSON.Category.push(categoryJSON);
+                }
+
+                return JSON.stringify(ListJSON);
             }
         }
 

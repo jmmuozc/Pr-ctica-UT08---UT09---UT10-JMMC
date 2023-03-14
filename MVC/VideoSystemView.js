@@ -1,8 +1,8 @@
 "use strict";
 
 import Production from "../js/Production.js";
-import {stringToDate} from "../js/Modules.js";
-import { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting,logIn } from "./validation.js";
+import { stringToDate } from "../js/Modules.js";
+import { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting, logIn } from "./validation.js";
 
 class videoSystemView {
 
@@ -92,7 +92,7 @@ class videoSystemView {
     }
   }
 
-  headerLogged(username){
+  headerLogged(username) {
     let nav = document.getElementById("navbarUl");
     if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
     if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
@@ -106,7 +106,7 @@ class videoSystemView {
     let formUl = document.createElement("ul");
     formUl.setAttribute("Id", "forms-ul");
     formUl.classList.add("dropdown-menu");
-    formUl.innerHTML=`
+    formUl.innerHTML = `
     <li>
     <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#Modal" id="FormProduction">
       Producciones
@@ -129,21 +129,26 @@ class videoSystemView {
   </li>`;
     formsLi.appendChild(formUl);
 
-    let greetLi= document.createElement("li");
+    let greetLi = document.createElement("li");
     greetLi.classList.add("nav-item");
     greetLi.classList.add("dropdown");
     greetLi.setAttribute("Id", "nav-greeting");
     greetLi.innerHTML = ` <a class="nav-link disabled" href="#">Bienvenido ${username}</a>`;
     nav.appendChild(greetLi);
 
-    let logOffLi= document.createElement("li");
+    let logOffLi = document.createElement("li");
     logOffLi.classList.add("nav-item");
     logOffLi.classList.add("dropdown");
     logOffLi.setAttribute("Id", "nav-logOff");
     logOffLi.innerHTML = ` <button type="button" class="btn btn-light" id="log-off" aria-current="page">Cerrar Sesion</button>`;
     nav.appendChild(logOffLi);
 
-
+    let backUpLi = document.createElement("li");
+    backUpLi.classList.add("nav-item");
+    backUpLi.classList.add("dropdown");
+    backUpLi.setAttribute("Id", "nav-backUp");
+    backUpLi.innerHTML = `<button class="nav-link bg-transparent border-0 ps-3 pe-3" type="submit" name="fbBackup" id="fbBackup">Backup</button>`;
+    nav.appendChild(backUpLi);
   }
 
   /**
@@ -465,7 +470,7 @@ class videoSystemView {
     productionInfoContainer.classList.add("text-center");
     productionInfoContainer.classList.add("col");
 
-    let publication=stringToDate(production.Publication);
+    let publication = stringToDate(production.Publication);
 
     productionInfoContainer.innerHTML = `<h4>${production.Title}</h4>
         <h2>${publication.toISOString().split("T")[0]}</h2>
@@ -1160,7 +1165,7 @@ class videoSystemView {
     if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
     if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
     if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
-    
+
     if (document.getElementById("div-Contents")) this.main.removeChild(document.getElementById("div-Contents"));
     if (document.getElementById("div-categories")) this.main.removeChild(document.getElementById("div-categories"));
     let loginContainer = document.createElement("div");
@@ -1169,7 +1174,7 @@ class videoSystemView {
     loginContainer.classList.add("text-center");
     loginContainer.setAttribute("Id", "div-Contents");
     loginContainer.setAttribute("height", "200px");
-   
+
     let form = document.createElement("form");
     form.setAttribute("name", "fLogin");
     form.setAttribute("role", "form");
@@ -1199,8 +1204,8 @@ class videoSystemView {
         </div>
         <button type="submit" class="btn btn-primary">Iniciar sesión</button>
         `;
-        this.main.appendChild(loginContainer);
-        loginContainer.appendChild(form);
+    this.main.appendChild(loginContainer);
+    loginContainer.appendChild(form);
   }
 
   /**
@@ -1463,13 +1468,24 @@ class videoSystemView {
     newPersonValidation(handler);
   }
 
-  
+
   /**
-   * Funcion que añade un evento a los elementos con la clase formPerson
+   * Funcion que añade un evento a los elementos con la Id log-off
    * @param {Function} handler 
   */
   bindLogOff(handler) {
     document.getElementById("log-off").addEventListener("click", (event) => {
+      handler()
+    });
+
+  }
+  
+  /**
+   * Funcion que añade un evento a los elementos con la Id 
+   * @param {Function} handler 
+  */
+  bindBackUp(handler) {
+    document.getElementById("nav-backUp").addEventListener("click", (event) => {
       handler()
     });
 
