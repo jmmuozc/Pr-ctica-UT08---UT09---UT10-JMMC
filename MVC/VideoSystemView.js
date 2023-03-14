@@ -98,6 +98,7 @@ class videoSystemView {
     if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
     if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
     if (document.getElementById("nav-backUp")) nav.removeChild(document.getElementById("nav-backUp"));
+    if (document.getElementById("nav-favorites")) nav.removeChild(document.getElementById("nav-favorites"));
     let formsLi = document.createElement("li");
     formsLi.classList.add("nav-item");
     formsLi.classList.add("dropdown");
@@ -132,30 +133,27 @@ class videoSystemView {
 
     let greetLi = document.createElement("li");
     greetLi.classList.add("nav-item");
-    greetLi.classList.add("dropdown");
     greetLi.setAttribute("Id", "nav-greeting");
     greetLi.innerHTML = ` <a class="nav-link disabled" href="#">Bienvenido ${username}</a>`;
     nav.appendChild(greetLi);
 
     let logOffLi = document.createElement("li");
     logOffLi.classList.add("nav-item");
-    logOffLi.classList.add("dropdown");
     logOffLi.setAttribute("Id", "nav-logOff");
     logOffLi.innerHTML = ` <button type="button" class="btn btn-light" id="log-off" aria-current="page">Cerrar Sesion</button>`;
     nav.appendChild(logOffLi);
 
     let backUpLi = document.createElement("li");
     backUpLi.classList.add("nav-item");
-    backUpLi.classList.add("dropdown");
     backUpLi.setAttribute("Id", "nav-backUp");
     backUpLi.innerHTML = `<button class="nav-link bg-transparent border-0 ps-3 pe-3" type="submit" name="fbBackup" id="fbBackup">Backup</button>`;
     nav.appendChild(backUpLi);
     
     let FavoritesLi = document.createElement("li");
     FavoritesLi.classList.add("nav-item");
-    FavoritesLi.classList.add("dropdown");
+    FavoritesLi.classList.add("nav__name");
     FavoritesLi.setAttribute("Id", "nav-favorites");
-    FavoritesLi.innerHTML = `<a class="dropdown-item" href="#Favorites">Favoritos</a>`;
+    FavoritesLi.innerHTML = `<a class="nav-link" href="#Favorites">Favoritos</a>`;
     nav.appendChild(FavoritesLi);
   }
 
@@ -1216,6 +1214,38 @@ class videoSystemView {
     loginContainer.appendChild(form);
   }
 
+  showFavoriteProductions(favoriteProductions){
+    if (document.getElementById("div-Contents")) this.main.removeChild(document.getElementById("div-Contents"));
+    if (document.getElementById("div-categories")) this.main.removeChild(document.getElementById("div-categories"));
+
+    let productionContainer = document.createElement("div");
+    // Le añadimos una clase (container)
+    productionContainer.classList.add("container");
+    productionContainer.classList.add("text-center");
+    productionContainer.setAttribute("Id", "div-Contents");
+    productionContainer.innerHTML = `<h1>Produccion</h1>`;
+    this.main.appendChild(productionContainer);
+
+    let productionRow = document.createElement("div");
+    productionRow.classList.add("row");
+
+    productionContainer.appendChild(productionRow);
+
+    for (let production of favoriteProductions) {
+      let productionColumn = document.createElement("div");
+      productionColumn.classList.add("col");
+      productionColumn.innerHTML = `<div class="card mx-auto" style="width: 18rem;  margin-top:2rem;">
+            <img src='./media/producciones/${production.Image}' class="card-img-top" alt="${production.Image}" width=250 height=150/>
+            <div class="card-body">
+              <h5 class="card-title">${production.Title}</h5>
+              <a href="#ProductionCard" class="btn btn-primary production-btn" data-production='${production.Title}'>Ver</a>
+              <button class="btn btn-primary production-btn-window" data-production='${production.Title}'>Ventana</button>
+            </div>
+          </div>`
+      productionRow.appendChild(productionColumn);
+    }
+  }
+
   /**
    * Cierra todas las ventanas
    */
@@ -1394,7 +1424,6 @@ class videoSystemView {
    */
   bindWindow(handler) {
     for (let element of document.getElementsByClassName('close-windows')) {
-
       element.addEventListener("click", (event) => {
         handler()
       });
@@ -1511,8 +1540,14 @@ class videoSystemView {
   
       }
     }
-  
 
+    bindFavoriteProductions(handler) {
+        document.getElementById("nav-favorites").addEventListener("click", (event) => {
+          this.#excecuteHandler(handler, [], 'body', { action: 'showFavorites' }, '#Favorites', event);
+        });
+
+    }
+  
   /**
  * Funcion que llama al nuevo logIn
  * @param {Function} handler 

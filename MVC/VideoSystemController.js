@@ -124,6 +124,7 @@ class videoSystemController {
         this.#videoSystemView.bindFormCategory(this.HandleCategoryForm);
         this.#videoSystemView.bindFormPerson(this.HandlePersonForm);
 
+        this.#videoSystemView.bindFavoriteProductions(this.HandleFavoriteProductions);
         this.#videoSystemView.bindBackUp(this.handleBackUp);
         this.#videoSystemView.bindWindow(this.handleCloseWindows);
         this.#videoSystemView.bindCategory(this.handleCategory);
@@ -167,14 +168,12 @@ class videoSystemController {
         this.onClickSeries();
         this.#videoSystemView.bindProductionCard(this.HandleProduction);
         this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
-        this.#videoSystemView.bindFavorite(this.HandleFavorites);
     }
 
     handleMovies = () => {
         this.onClickMovies();
         this.#videoSystemView.bindProductionCard(this.HandleProduction);
         this.#videoSystemView.bindProductionCardWindow(this.HandleProductionWindow);
-        this.#videoSystemView.bindFavorite(this.HandleFavorites);
     }
 
 
@@ -226,6 +225,10 @@ class videoSystemController {
         this.onClickProductionCardWindow(title);
     }
 
+    HandleFavoriteProductions = () => {
+        this.onClickFavoriteProductions();
+    }
+
     HandleProductionForm = () => {
         this.onClickProductionForm();
     }
@@ -247,8 +250,8 @@ class videoSystemController {
         this.onClickLogOff();
     }
 
-    HandleFavorites = () => {
-        this.onClickFavorite();
+    HandleFavorites = (title) => {
+        this.onClickFavorite(title);
     }
 
     onClickClosewindows = () => {
@@ -276,6 +279,28 @@ class videoSystemController {
 
     onClickActorCard = (dni) => {
         this.#videoSystemView.showPerson(this.#videoSystemModel.getPersonByDNI(dni), this.#videoSystemModel.getProductionsActor(this.#videoSystemModel.getPersonByDNI(dni)));
+    }
+
+    onClickFavoriteProductions=()=>{
+        let cookie1 = document.cookie.replace(/(?:(?:^|.*;\s*)Cookie1\s*\=\s*([^;]*).*$)|^.*$/, "$1");    
+        let favorites=[];
+            if (localStorage.getItem(cookie1)!=null) {
+                let arrayfav=localStorage.getItem(cookie1).split("/");
+                arrayfav.forEach(element => {
+                favorites.push(this.#videoSystemModel.getProductionByTitle(element));
+               });
+            }
+        this.#videoSystemView.showFavoriteProductions(this.iteratorOfFavorites(favorites));
+    }
+
+    iteratorOfFavorites(arrayFavorites){
+        return {
+            *[Symbol.iterator]() {
+                for (let i = 0; i < arrayFavorites.length; i++) {
+                    yield arrayFavorites[i];
+                }
+            }
+        }
     }
 
     onClickDirectorCardWindow = (dni) => {
@@ -314,6 +339,7 @@ class videoSystemController {
     onClickProductionCard = (title) => {
         this.#videoSystemView.showProductionCard(this.#videoSystemModel.getProductionByTitle(title), this.#videoSystemModel.getCast(this.#videoSystemModel.getProductionByTitle(title)),
             this.#videoSystemModel.getDirector(this.#videoSystemModel.getProductionByTitle(title)));
+            this.#videoSystemView.bindFavorite(this.HandleFavorites);
     }
 
     onClickProductionCardWindow = (title) => {
@@ -382,7 +408,6 @@ class videoSystemController {
     }
 
     onClickBackUp = () =>{
-        console.log("Saquenme de venezuela");
         let base = location.protocol + "//" + location.host + location.pathname;
         let url = new URL("php/JSON.php",base);
         let formData= new FormData();
@@ -612,13 +637,14 @@ class videoSystemController {
     }
 
     onClickLogOff = () => {
-       this.setCookie("Cookie1");
+        this.setCookie("Cookie1");
+        console.log("El pepe");
        this.onInit();
     }
 
     setCookie(cname) {
         const d = new Date();
-        d.setTime(d.getTime());
+        d.setTime(0);
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + ";" + expires + ";path=/";
     }
@@ -628,7 +654,6 @@ class videoSystemController {
     }
 
     onClickFavorite = (title) => {
-        console.log("Marihuana")
         let cookie1 = document.cookie.replace(/(?:(?:^|.*;\s*)Cookie1\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         if (cookie1!="") {       
             if (localStorage.getItem(cookie1)!=null) {
