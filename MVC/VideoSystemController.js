@@ -17,7 +17,7 @@ class videoSystemController {
         // Lo invocamos en el constructor como primer evento ya que el resto necesitarán que la carga inicial se haya producido.
         this.onLoad();
 
-        this.onInit();
+        // this.onInit();
 
         // Enlazamos handlers con la vista
         this.#videoSystemView.bindInit(this.handleInit);
@@ -32,7 +32,6 @@ class videoSystemController {
             data.Production.Movie.forEach(mov =>{
 				let auxMovie = this.#videoSystemModel.movieFactory(mov.Title,mov.Publication,mov.Nationality,mov.Synopsis,mov.Image,mov.Seasons);
 				this.#videoSystemModel.addProductions(auxMovie);
-
             })
 
             data.Production.Serie.forEach(serie =>{
@@ -74,6 +73,7 @@ class videoSystemController {
             })
 
         })
+        .then(()=>{this.onInit();})
         }
     
 
