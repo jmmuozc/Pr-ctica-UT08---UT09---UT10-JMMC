@@ -629,7 +629,7 @@ class videoSystemController {
 
     HandleLogIn = (user, passwd) => {
         if (this.#videoSystemModel.checkLogin(user, passwd)) {
-            document.cookie = `Cookie1 = ${user}`;
+           this.setCookie("Cookie1",user,1);
             this.onLogIn();
         } else {
             this.failedLogIn();
@@ -637,16 +637,15 @@ class videoSystemController {
     }
 
     onClickLogOff = () => {
-        this.setCookie("Cookie1");
-        console.log("El pepe");
+        this.setCookie("Cookie1",null,0);
        this.onInit();
     }
 
-    setCookie(cname) {
+    setCookie(cname,cvalue,exdays) {
         const d = new Date();
-        d.setTime(0);
+        d.setTime(d.getTime()+(exdays *24*60*60*1000));
         let expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + ";" + expires + ";path=/";
+        document.cookie = cname + "=" +cvalue+";" + expires + ";path=/";
     }
 
     handleBackUp = () => {
