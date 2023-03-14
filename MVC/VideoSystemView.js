@@ -1171,6 +1171,8 @@ class videoSystemView {
     if (document.getElementById("nav-forms")) nav.removeChild(document.getElementById("nav-forms"));
     if (document.getElementById("nav-greeting")) nav.removeChild(document.getElementById("nav-greeting"));
     if (document.getElementById("nav-logOff")) nav.removeChild(document.getElementById("nav-logOff"));
+    if (document.getElementById("nav-backUp")) nav.removeChild(document.getElementById("nav-backUp"));
+    if (document.getElementById("nav-favorites")) nav.removeChild(document.getElementById("nav-favorites"));
 
     if (document.getElementById("div-Contents")) this.main.removeChild(document.getElementById("div-Contents"));
     if (document.getElementById("div-categories")) this.main.removeChild(document.getElementById("div-categories"));
