@@ -614,7 +614,7 @@ let videoSystem = (function () {
                 let directorPosition = this.#getDirectorPosition(director);
                 if (directorPosition === -1) this.#DirectorList.push(director);
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
@@ -647,7 +647,7 @@ let videoSystem = (function () {
                 if (directorPosition === -1) throw new DirectorNoExists;
                 let prodPosition;
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
@@ -682,7 +682,7 @@ let videoSystem = (function () {
                 let actorPosition = this.#getActorPosition(actor);
                 if (actorPosition === -1) this.#ActorList.push(actor);
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
@@ -715,7 +715,7 @@ let videoSystem = (function () {
                 if (actorPosition === -1) throw new ActorNoExists();
                 let prodPosition;
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
