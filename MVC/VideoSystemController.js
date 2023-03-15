@@ -450,12 +450,14 @@ class videoSystemController {
                         dni: actor.dni,
                         Producciones: []
                     }
+                    name="Actor/Actriz " +actor.Name;
                     this.#deletedObjects.PersonDeleted.ActorDeleted.push(actorJSON);
                     this.#videoSystemModel.removeActor(actor);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
                     done = false;
+                    name="Actor/Actriz "
                 }
             } else {
                 try {
@@ -464,6 +466,8 @@ class videoSystemController {
                     } else {
                         this.#videoSystemModel.addActor(this.#videoSystemModel.personFactory(name, dni, lastName, born, LastNameTwo));
                     }
+
+                    name="Actor/Actriz " +name;
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
@@ -484,12 +488,14 @@ class videoSystemController {
                         dni: director.dni,
                         Producciones: []
                     }
+                    name="Director/Directora " +director.Name;
                     this.#deletedObjects.PersonDeleted.DirectorDeleted.push(directorJSON);
                     this.#videoSystemModel.removeDirector(director);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
                     done = false;
+                    name="Director/Directora "
                 }
             } else {
                 try {
@@ -498,6 +504,7 @@ class videoSystemController {
                     } else {
                         this.#videoSystemModel.addDirector(this.#videoSystemModel.PersonFactory(name, dni, lastName, born, LastNameTwo));
                     }
+                    name="Director/Directora " +name;
                     done = true;
                     this.onLogIn();
                 } catch (exception) {

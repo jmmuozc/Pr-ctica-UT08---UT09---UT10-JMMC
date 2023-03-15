@@ -817,7 +817,7 @@ class videoSystemView {
               <div class="input-group">
                     
                 <input type="text" class="form-control" id="vfName" name="vfName" placeholder="Nombre"
-                  aria-describedby="namePrepend" value="" required>
+                  aria-describedby="namePrepend" value="">
                 <div class="invalid-feedback">El Nombre es obligatorio.</div>
                 <div class="valid-feedback">Correcto.</div>
               </div>
@@ -847,7 +847,7 @@ class videoSystemView {
               <div class="input-group">
                                  
                 <input type="text" class="form-control" id="DNI" name="DNI"
-                  placeholder="00000000X" aria-describedby="dniPrepend" value="">
+                  placeholder="00000000X" aria-describedby="dniPrepend" value="" required>
               </div>
             </div>
             </div>
@@ -884,12 +884,12 @@ class videoSystemView {
       if (del) {
         let errorDiv = document.createElement("div");
         errorDiv.setAttribute("Id", "errorDiv")
-        errorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> La persona <strong>${person}</strong> se ha eliminado con exito.</div>`;
+        errorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La <strong>${person}</strong> se ha eliminado con exito.</div>`;
         form.appendChild(errorDiv);
       } else if (del == false) {
         let errorDiv = document.createElement("div");
         errorDiv.setAttribute("Id", "errorDiv")
-        errorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> La persona <strong>${person}</strong> se ha creado con exito.</div>`;
+        errorDiv.innerHTML = `<div class="error text-info p-3"><i class="fas fa-exclamation-triangle"></i> El/La <strong>${person}</strong> se ha creado con exito.</div>`;
         form.appendChild(errorDiv);
       } else {
 
@@ -898,12 +898,12 @@ class videoSystemView {
       if (del) {
         let errorDiv = document.createElement("div");
         errorDiv.setAttribute("Id", "errorDiv")
-        errorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> La persona <strong>${person}</strong> no existe.</div>`;
+        errorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La persona con este DNI no existe.</div>`;
         form.appendChild(errorDiv);
       } else if (del == false) {
         let errorDiv = document.createElement("div");
         errorDiv.setAttribute("Id", "errorDiv")
-        errorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> La persona <strong>${person}</strong> ya está creada.</div>`;
+        errorDiv.innerHTML = `<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i> El/La persona con este DNI ya está creada.</div>`;
         form.appendChild(errorDiv);
       }
 

@@ -61,7 +61,7 @@ function newPersonValidation(handler) {
     let isValid = true;
     let firstInvalidElement = null;
 
-    if (!this.DNI.checkValidity()) {
+    if (this.DNI.value == "") {
       isValid = false;
       showFeedBack($(this.DNI), false);
       firstInvalidElement = this.DNI;
@@ -69,16 +69,16 @@ function newPersonValidation(handler) {
       showFeedBack($(this.DNI), true);
     }
     
-    this.vfName.value = this.vfName.value.trim();
-    if (this.vfName.value == "") {
-      showFeedBack($(this.vfName), false);
-    } else {
-      showFeedBack($(this.vfName), true);
-    }
-
-
+    
+    
     if (!this.CheckDelete.checked) {
-
+      this.vfName.value = this.vfName.value.trim();
+      if (this.vfName.value == "") {
+        showFeedBack($(this.vfName), false);
+      } else {
+        showFeedBack($(this.vfName), true);
+      }
+      
       if (!this.vfBorn.checkValidity()) {
         isValid = false;
         showFeedBack($(this.vfBorn), false);
