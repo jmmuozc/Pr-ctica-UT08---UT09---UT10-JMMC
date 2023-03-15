@@ -381,8 +381,16 @@ class videoSystemController {
 
         if (del) {
             try {
-                this.#deletedObjects.CategoryDeleted.push(this.#videoSystemModel.getCategoryByName(name));
-                this.#videoSystemModel.removeCategory(this.#videoSystemModel.getCategoryByName(name));
+                let category=this.#videoSystemModel.getCategoryByName(name);
+                
+                let categoryJSON;
+                categoryJSON = {
+                    Title: category.Name,
+                    Description: category.Description,
+                    Producciones: []
+                }
+                this.#deletedObjects.CategoryDeleted.push(categoryJSON);
+                this.#videoSystemModel.removeCategory(category);
                 done = true;
                 this.onLogIn();
             } catch (exception) {
@@ -430,8 +438,19 @@ class videoSystemController {
         if (type == "Actor") {
             if (del) {
                 try {
-                    this.#deletedObjects.PersonDeleted.ActorDeleted.push(this.#videoSystemModel.getPersonByDNI(dni));
-                    this.#videoSystemModel.removeActor(this.#videoSystemModel.getPersonByDNI(dni));
+                    let actor=this.#videoSystemModel.getPersonByDNI(dni);
+                    let actorJSON;
+                    actorJSON = {
+                        name: actor.Name,
+                        lastname1: actor.FirstLastName,
+                        lastname2: actor.SecondLastName,
+                        born: actor.Born,
+                        picture: actor.Picture,
+                        dni: actor.dni,
+                        Producciones: []
+                    }
+                    this.#deletedObjects.PersonDeleted.ActorDeleted.push(actorJSON);
+                    this.#videoSystemModel.removeActor(actor);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
@@ -453,8 +472,19 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
-                    this.#deletedObjects.PersonDeleted.DirectorDeleted.push(this.#videoSystemModel.getPersonByDNI(dni));
-                    this.#videoSystemModel.removeDirector(this.#videoSystemModel.getPersonByDNI(dni));
+                    let director=this.#videoSystemModel.getPersonByDNI(dni);
+                    let directorJSON;
+                    directorJSON = {
+                        name: director.Name,
+                        lastname1: director.FirstLastName,
+                        lastname2: director.SecondLastName,
+                        born: director.Born,
+                        picture: director.Picture,
+                        dni: director.dni,
+                        Producciones: []
+                    }
+                    this.#deletedObjects.PersonDeleted.DirectorDeleted.push(directorJSON);
+                    this.#videoSystemModel.removeDirector(director);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
@@ -485,8 +515,21 @@ class videoSystemController {
         if (type == "Serie") {
             if (del) {
                 try {
-                    this.#deletedObjects.ProductionDeleted.SerieDeleted.push(this.#videoSystemModel.getProductionByTitle(title));
-                    this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
+                    let serie=this.#videoSystemModel.getProductionByTitle(title);
+                    let serieJSON;
+
+                    serieJSON = {
+                        Title: serie.Title,
+                        Nationality: serie.Nationality,
+                        Publication: serie.Publication,
+                        Synopsis: serie.Synopsis,
+                        Image: serie.Image,
+                        Resource: serie.Resource,
+                        Location: serie.Locations,
+                        Seasons: serie.Seasons
+                    }
+                    this.#deletedObjects.ProductionDeleted.SerieDeleted.push(serieJSON);
+                    this.#videoSystemModel.removeProductions(serie);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {
@@ -518,8 +561,21 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
-                    this.#deletedObjects.ProductionDeleted.MovieDeleted.push(this.#videoSystemModel.getProductionByTitle(title));
-                    this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
+
+                    let movie=this.#videoSystemModel.getProductionByTitle(title);
+                    let movieJSON;
+
+                    movieJSON = {
+                        Title: movie.Title,
+                        Nationality: movie.Nationality,
+                        Publication: movie.Publication,
+                        Synopsis: movie.Synopsis,
+                        Image: movie.Image,
+                        Resource: movie.Resource,
+                        Location: movie.Locations,
+                    }
+                    this.#deletedObjects.ProductionDeleted.MovieDeleted.push(movieJSON);
+                    this.#videoSystemModel.removeProductions(movie);
                     done = true;
                     this.onLogIn();
                 } catch (exception) {

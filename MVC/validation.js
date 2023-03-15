@@ -47,7 +47,7 @@ function newCategoryValidation(handler) {
     if (!isValid) {
       firstInvalidElement.focus();
     } else {
-      handler(this.vfName.value, this.Description.value,this.CheckDelete.checked);
+      handler(this.vfName.value, this.Description.value, this.CheckDelete.checked);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -60,11 +60,13 @@ function newPersonValidation(handler) {
   $(form).submit(function (event) {
     let isValid = true;
     let firstInvalidElement = null;
-    this.vfName.value = this.vfName.value.trim();
-    if (this.vfName.value == "") {
-      showFeedBack($(this.vfName), false);
+
+    if (!this.DNI.checkValidity()) {
+      isValid = false;
+      showFeedBack($(this.DNI), false);
+      firstInvalidElement = this.DNI;
     } else {
-      showFeedBack($(this.vfName), true);
+      showFeedBack($(this.DNI), true);
     }
 
     if (!this.CheckDelete.checked) {
@@ -77,14 +79,14 @@ function newPersonValidation(handler) {
         showFeedBack($(this.vfBorn), true);
       }
 
-      if (!this.DNI.checkValidity()) {
-        isValid = false;
-        showFeedBack($(this.DNI), false);
-        firstInvalidElement = this.DNI;
+      this.vfName.value = this.vfName.value.trim();
+      if (this.vfName.value == "") {
+        showFeedBack($(this.vfName), false);
       } else {
-        showFeedBack($(this.DNI), true);
+        showFeedBack($(this.vfName), true);
       }
-      
+
+
       if (!this.LastName.checkValidity()) {
         isValid = false;
         showFeedBack($(this.LastName), false);
@@ -92,8 +94,8 @@ function newPersonValidation(handler) {
       } else {
         showFeedBack($(this.LastName), true);
       }
-      
-      
+
+
       if (!this.LastNameTwo.checkValidity()) {
         isValid = false;
         showFeedBack($(this.LastNameTwo), false);
@@ -101,7 +103,7 @@ function newPersonValidation(handler) {
       } else {
         showFeedBack($(this.LastNameTwo), true);
       }
-      
+
       if (!this.Image.checkValidity()) {
         isValid = false;
         showFeedBack($(this.Image), false);
@@ -114,7 +116,7 @@ function newPersonValidation(handler) {
     if (!isValid) {
       firstInvalidElement.focus();
     } else {
-      handler(this.type.value,this.vfName.value, this.CheckDelete.checked,fixInputDate(this.vfBorn.value), this.DNI.value, this.LastName.value,this.LastNameTwo.value);
+      handler(this.type.value, this.vfName.value, this.CheckDelete.checked, fixInputDate(this.vfBorn.value), this.DNI.value, this.LastName.value, this.LastNameTwo.value);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -150,7 +152,7 @@ function newProductionValidation(handler) {
       } else {
         showFeedBack($(this.Nationality), true);
       }
-      
+
       if (!this.Synopsis.checkValidity()) {
         isValid = false;
         showFeedBack($(this.Synopsis), false);
@@ -163,7 +165,7 @@ function newProductionValidation(handler) {
     if (!isValid) {
       firstInvalidElement.focus();
     } else {
-      handler(this.type.value,this.vfTitle.value, this.CheckDelete.checked ,fixInputDate(this.vfPublication.value), this.Nationality.value, this.Synopsis.value,selectedParameters(this.directorSelect),selectedParameters(this.actorSelect),selectedParameters(this.categorySelect));
+      handler(this.type.value, this.vfTitle.value, this.CheckDelete.checked, fixInputDate(this.vfPublication.value), this.Nationality.value, this.Synopsis.value, selectedParameters(this.directorSelect), selectedParameters(this.actorSelect), selectedParameters(this.categorySelect));
     }
     event.preventDefault();
     event.stopPropagation();
@@ -176,11 +178,11 @@ function changeCasting(handler) {
   $(form).submit(function (event) {
     let isValid = true;
     let firstInvalidElement = null;
-   
+
     if (!isValid) {
       firstInvalidElement.focus();
     } else {
-      handler(this.productionSelect.value, this.actorSelect.value,this.directorSelect.value,this.CheckUnassign.checked);
+      handler(this.productionSelect.value, this.actorSelect.value, this.directorSelect.value, this.CheckUnassign.checked);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -193,7 +195,7 @@ function logIn(handler) {
   $(form).submit(function (event) {
     let isValid = true;
     let firstInvalidElement = null;
-   
+
     if (!isValid) {
       firstInvalidElement.focus();
     } else {
@@ -205,7 +207,7 @@ function logIn(handler) {
 }
 
 function selectedParameters(MultiSelect) {
-  let valueList=[];
+  let valueList = [];
   for (let select of MultiSelect) {
     if (select.selected) {
       valueList.push(select.value);
@@ -215,9 +217,9 @@ function selectedParameters(MultiSelect) {
 }
 
 function fixInputDate(date) {
-  date=date.split("-");
-  date=date.reverse();
+  date = date.split("-");
+  date = date.reverse();
   return date.join("/");
-  
+
 }
-export { newCategoryValidation,newPersonValidation,newProductionValidation,changeCasting,logIn}
+export { newCategoryValidation, newPersonValidation, newProductionValidation, changeCasting, logIn }
