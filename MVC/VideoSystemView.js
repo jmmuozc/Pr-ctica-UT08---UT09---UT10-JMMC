@@ -553,9 +553,9 @@ class videoSystemView {
     productionInfoContainer.classList.add("container");
     productionInfoContainer.classList.add("text-center");
     productionInfoContainer.classList.add("col");
-
+    let publication = stringToDate(production.Publication);
     productionInfoContainer.innerHTML = `<h4>${production.Title}</h4>
-        <h2>${production.Publication.toISOString().split("T")[0]}</h2>
+        <h2>${publication.toISOString().split("T")[0]}</h2>
         <p>${production.Synopsis}</p>`;
 
     productionContainer.appendChild(productionInfoContainer);
