@@ -518,7 +518,6 @@ class videoSystemController {
                 try {
                     let serie=this.#videoSystemModel.getProductionByTitle(title);
                     let serieJSON;
-
                     serieJSON = {
                         Title: serie.Title,
                         Nationality: serie.Nationality,
@@ -538,7 +537,7 @@ class videoSystemController {
                 }
             } else {
                 try {
-                    production = this.#videoSystemModel.serieFactory(title, date, nat, syn);
+                    let production = this.#videoSystemModel.serieFactory(title, date, nat, syn);
                     this.#videoSystemModel.addProductions(production);
 
                     directors.forEach(element => {
@@ -584,7 +583,7 @@ class videoSystemController {
                 }
             } else {
                 try {
-                    production = this.#videoSystemModel.movieFactory(title, date, nat, syn);
+                    let production = this.#videoSystemModel.movieFactory(title, date, nat, syn);
                     this.#videoSystemModel.addProductions(production);
 
                     directors.forEach(element => {

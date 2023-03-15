@@ -68,6 +68,14 @@ function newPersonValidation(handler) {
     } else {
       showFeedBack($(this.DNI), true);
     }
+    
+    this.vfName.value = this.vfName.value.trim();
+    if (this.vfName.value == "") {
+      showFeedBack($(this.vfName), false);
+    } else {
+      showFeedBack($(this.vfName), true);
+    }
+
 
     if (!this.CheckDelete.checked) {
 
@@ -78,14 +86,6 @@ function newPersonValidation(handler) {
       } else {
         showFeedBack($(this.vfBorn), true);
       }
-
-      this.vfName.value = this.vfName.value.trim();
-      if (this.vfName.value == "") {
-        showFeedBack($(this.vfName), false);
-      } else {
-        showFeedBack($(this.vfName), true);
-      }
-
 
       if (!this.LastName.checkValidity()) {
         isValid = false;

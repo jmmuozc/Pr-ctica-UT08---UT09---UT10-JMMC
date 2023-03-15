@@ -546,7 +546,7 @@ let videoSystem = (function () {
                 // En caso de que no exista lo crea
                 if (catPosition === -1) this.addCategory(category);
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
@@ -579,7 +579,7 @@ let videoSystem = (function () {
                 if (catPosition === -1) throw new CategoryNoExists;
                 let prodPosition;
                 // Por cada produccion facilitada
-                if (production instanceof Array) {
+                if (production[0] instanceof Array) {
                     production = production[0];
                 }
                 production.forEach(element => {
