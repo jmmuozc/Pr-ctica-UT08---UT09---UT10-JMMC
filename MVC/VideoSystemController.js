@@ -6,10 +6,10 @@ class videoSystemController {
     #videoSystemModel;
     #videoSystemView;
     #deletedObjects={
-        Category:[],
-        Person:{Actor:[],Director:[]},
-        User:[],
-        Production:{Movie:[],Serie:[]}
+        CategoryDeleted:[],
+        PersonDeleted:{ActorDeleted:[],DirectorDeleted:[]},
+        UserDeleted:[],
+        ProductionDeleted:{MovieDeleted:[],SerieDeleted:[]}
     };
 
     // #loadDefaultObjects() {
@@ -381,7 +381,7 @@ class videoSystemController {
 
         if (del) {
             try {
-                this.#deletedObjects.Category.push(this.#videoSystemModel.getCategoryByName(name));
+                this.#deletedObjects.CategoryDeleted.push(this.#videoSystemModel.getCategoryByName(name));
                 this.#videoSystemModel.removeCategory(this.#videoSystemModel.getCategoryByName(name));
                 done = true;
                 this.onLogIn();
@@ -430,7 +430,7 @@ class videoSystemController {
         if (type == "Actor") {
             if (del) {
                 try {
-                    this.#deletedObjects.Person.Actor.push(this.#videoSystemModel.getPersonByDNI(dni));
+                    this.#deletedObjects.PersonDeleted.ActorDeleted.push(this.#videoSystemModel.getPersonByDNI(dni));
                     this.#videoSystemModel.removeActor(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
                     this.onLogIn();
@@ -453,7 +453,7 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
-                    this.#deletedObjects.Person.Director.push(this.#videoSystemModel.getPersonByDNI(dni));
+                    this.#deletedObjects.PersonDeleted.DirectorDeleted.push(this.#videoSystemModel.getPersonByDNI(dni));
                     this.#videoSystemModel.removeDirector(this.#videoSystemModel.getPersonByDNI(dni));
                     done = true;
                     this.onLogIn();
@@ -485,7 +485,7 @@ class videoSystemController {
         if (type == "Serie") {
             if (del) {
                 try {
-                    this.#deletedObjects.Production.Serie.push(this.#videoSystemModel.getProductionByTitle(title));
+                    this.#deletedObjects.ProductionDeleted.SerieDeleted.push(this.#videoSystemModel.getProductionByTitle(title));
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
                     this.onLogIn();
@@ -518,7 +518,7 @@ class videoSystemController {
         } else {
             if (del) {
                 try {
-                    this.#deletedObjects.Production.Movie.push(this.#videoSystemModel.getProductionByTitle(title));
+                    this.#deletedObjects.ProductionDeleted.MovieDeleted.push(this.#videoSystemModel.getProductionByTitle(title));
                     this.#videoSystemModel.removeProductions(this.#videoSystemModel.getProductionByTitle(title));
                     done = true;
                     this.onLogIn();

@@ -1123,7 +1123,7 @@ let videoSystem = (function () {
                     ListJSON.User.push(userJSON);
                 }
 
-                Object.assign(ListJSON,deletedObjects)
+                ListJSON=Object.assign(deletedObjects,ListJSON);
                 return JSON.stringify(ListJSON);
             }
         }
